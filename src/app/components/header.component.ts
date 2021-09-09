@@ -37,7 +37,7 @@ import { Component, OnInit } from '@angular/core';
       </div>
     </nav>
   `,
-  styleUrls: ['./header.component.css']
+  styleUrls: []
 })
 export class HeaderComponent implements OnInit {
   headerFilname = 'bootstrap-logo.svg';
