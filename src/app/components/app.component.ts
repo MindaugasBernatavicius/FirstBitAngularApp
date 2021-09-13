@@ -41,11 +41,7 @@ import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
 
       <br />
       <div>Mouse x: {{ mouseX }} mouse y: {{ mouseY }}</div>
-      <div
-        #rect
-        (mousemove)="mouseMoveHandler($event)"
-        style="height: 200px; width: 200px; background-color: red"
-      ></div>
+      <div #rect (mousemove)="mouseMoveHandler($event)" style="height: 200px; width: 200px; background-color: red"></div>
       <br />
 
       <h2>Two-way binding</h2>
@@ -87,24 +83,26 @@ import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
       <hr />
       <h4>Let's print a table</h4>
 
-      <table *ngIf="products.length !== 0" class="table" >
+      <!-- <table *ngIf="products.length !== 0" class="table" > -->
+      <table *ngIf="products.length > 0; else noProductsWarning" class="table" >
         <thead>
           <tr>
             <th>Title</th>
             <th>Count</th>
-            <th>Price per unit</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let product of products">
-            <td>{{ product.title | lowercase }}</td>
-            <td>{{ product.count }}</td>
-            <td>{{ product.pricePerUnitInDollars | currency: product.currency : 'symbol' : '7.2-3'  }}</td>
-            <!-- <td>{{ product.pricePerUnitInDollars | currency: 'EUR' }}</td> -->
+            <!-- <td>{{ product.title | convertToSpace: '-' | convertToSpace: '\\\\$' | convertToSpace: '\\\\[' | convertToSpace: '\\\\]' }}</td> -->
+            <td>{{ product.title | convertToSpace: ['-', '\\\\$', '\\\\[', '\\\\]'] }}</td>
+            <td>{{ product.count | currency }}</td>
           </tr>
         </tbody>
       </table>
-      <p *ngIf="products.length == 0" class="alert alert-warning">No data!</p>
+      <!-- <p *ngIf="products.length == 0" class="alert alert-warning">No data!</p> -->
+      <ng-template #noProductsWarning>
+        <p class="alert alert-warning">No data!</p>
+      </ng-template>
 
       <br />
     </div>
@@ -183,8 +181,9 @@ export class AppComponent implements AfterViewInit {
   }
 
   products: any[] = [
-    { title: `Adidas X512 Shoes`, count: 150, pricePerUnitInDollars: 150.79, currency: 'USD' },
-    { title: `Nike Jordanium Shoes`, count: 205, pricePerUnitInDollars: 150.99, currency: 'EUR' },
-    { title: `Balenciaga Amazing Shoes`, count: 990, pricePerUnitInDollars: 990.9911, currency: 'JPY' },
+    // { title: `Adidas----X512-Shoes`, count: 150, pricePerUnitInDollars: 150.79, currency: 'USD' },
+    // { title: `Nike-Jordanium-$-Shoes`, count: 205, pricePerUnitInDollars: 150.99, currency: 'EUR' },
+    // { title: `Balenciaga Amazing       Shoes`, count: 990, pricePerUnitInDollars: 990.9911, currency: 'JPY' },
+    // { title: `Gucci Dumpsterfire [] Shoes`, count: 990, pricePerUnitInDollars: 911.9911, currency: 'EUR' },
   ];
 }
