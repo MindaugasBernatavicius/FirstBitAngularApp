@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
+import { Product } from '../models/Product';
 
 // app.component.ts
 @Component({
@@ -81,6 +82,10 @@ import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
         Click to {{ isMessageShown ? 'hide' : 'see' }} the message
       </button>
       <hr />
+
+      <label>Filter:</label>
+      <!-- <input type="text" (input)="onFilter($any($event.target).value)"> -->
+      <input type="text" (input)="onFilter($event)">
       <h4>Let's print a table</h4>
 
       <!-- <table *ngIf="products.length !== 0" class="table" > -->
@@ -92,7 +97,7 @@ import { AfterViewInit, Component, ViewChild, ElementRef } from '@angular/core';
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let product of products">
+          <tr *ngFor="let product of filteredProducts">
             <!-- <td>{{ product.title | convertToSpace: '-' | convertToSpace: '\\\\$' | convertToSpace: '\\\\[' | convertToSpace: '\\\\]' }}</td> -->
             <td>{{ product.title | convertToSpace: ['-', '\\\\$', '\\\\[', '\\\\]'] }}</td>
             <td>{{ product.count | currency }}</td>
@@ -180,10 +185,17 @@ export class AppComponent implements AfterViewInit {
     }
   }
 
-  products: any[] = [
-    // { title: `Adidas----X512-Shoes`, count: 150, pricePerUnitInDollars: 150.79, currency: 'USD' },
-    // { title: `Nike-Jordanium-$-Shoes`, count: 205, pricePerUnitInDollars: 150.99, currency: 'EUR' },
-    // { title: `Balenciaga Amazing       Shoes`, count: 990, pricePerUnitInDollars: 990.9911, currency: 'JPY' },
-    // { title: `Gucci Dumpsterfire [] Shoes`, count: 990, pricePerUnitInDollars: 911.9911, currency: 'EUR' },
+  products: Product[] = [
+    { title: `Adidas----X512-Shoes`, count: 150, pricePerUnitInDollars: 150.79, currency: 'USD' },
+    { title: `Nike-Jordanium-$-Shoes`, count: 205, pricePerUnitInDollars: 150.99, currency: 'EUR' },
+    { title: `Balenciaga Amazing       Shoes`, count: 990, pricePerUnitInDollars: 990.9911, currency: 'JPY' },
+    { title: `Gucci Dumpsterfire [] Shoes`, count: 990, pricePerUnitInDollars: 911.9911, currency: 'EUR' },
   ];
+
+  filteredProducts = this.products;
+
+  onFilter($event: any) {
+    let s = $event.target.value.toLocaleLowerCase()
+    this.filteredProducts = this.products.filter(p => p.title.toLocaleLowerCase().indexOf(s) != -1);
+  }
 }
