@@ -29,15 +29,15 @@ import { Component, OnInit } from '@angular/core';
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/home']">Home</a>
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/products']">Products</a>
-            <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/about']">About</a>
+            <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/home']"><span>Home</span></a>
+            <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/products']"><span>Products</span></a>
+            <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/about']"><span>About</span></a>
           </div>
         </div>
       </div>
     </nav>
   `,
-  styleUrls: []
+  styles: ['.nav-link.active > span { color: orange }']
 })
 export class HeaderComponent implements OnInit {
   headerFilname = 'bootstrap-logo.svg';
