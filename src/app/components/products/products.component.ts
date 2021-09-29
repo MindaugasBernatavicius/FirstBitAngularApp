@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Product } from 'src/app/models/Product';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-products',
   template: `
+    <div *ngIf="error" class="alert alert-danger" role="alert">
+      <div>{{ error }}</div>
+    </div>
+
     <label>Filter:</label>
     <!-- <input type="text" (input)="onFilter($any($event.target).value)"> -->
     <input type="text" (input)="onFilter($event)">
@@ -30,36 +35,46 @@ import { ProductService } from 'src/app/services/product.service';
       <tbody>
         <tr *ngFor="let product of filteredProducts">
           <!-- <td>{{ product.title | convertToSpace: '-' | convertToSpace: '\\\\$' | convertToSpace: '\\\\[' | convertToSpace: '\\\\]' }}</td> -->
-          <td>{{ product.title | convertToSpace: ['-', '\\\\$', '\\\\[', '\\\\]'] }}</td>
+          <td><a [routerLink]="['/products', product.id]">{{ product.title | convertToSpace: ['-', '\\\\$', '\\\\[', '\\\\]'] }}</a></td>
           <td>{{ product.count | currency }}</td>
-          <td><app-star></app-star></td>
+          <td><app-star [rating]="product.score" (ratingClicked)="OnRatingClicked($event)" (starClicked)="OnStarClicked($event)"></app-star></td>
         </tr>
       </tbody>
     </table>
     <!-- <p *ngIf="products.length == 0" class="alert alert-warning">No data!</p> -->
     <ng-template #noProductsWarning>
       <p class="alert alert-warning">No data!</p>
-    </ng-template>`,
+    </ng-template>
+    <hr>
+    <p>{{ text }}</p>
+    <p *ngIf="starclicked !== 0">{{ starclicked }}</p>
+    `,
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-
   products: Product[];
   filteredProducts: Product[];
   direction = "up";
   sortField = "";
+  text = "";
+  starclicked = 0;
+  error = ``;
 
-  constructor(private productService: ProductService) {
+  constructor(
+    private productService: ProductService,
+    private router: Router
+  ) {
     this.products = this.productService.getProducts();
     this.filteredProducts = this.products;
+    this.error = this.router.getCurrentNavigation()?.extras.state?.error;
   }
 
-  onFilter($event: any) {
+  onFilter($event: any): void {
     let s = $event.target.value.toLocaleLowerCase()
     this.filteredProducts = this.products.filter(p => p.title.toLocaleLowerCase().indexOf(s) != -1);
   }
 
-  sortBy(field: string) {
+  sortBy(field: string): void {
     let f = field as keyof Product;
     if (this.direction == "up") {
       this.filteredProducts.sort((a, b) => {
@@ -76,5 +91,16 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+  }
+
+  OnRatingClicked(childData: string): void {
+    // console.log(childData);
+    this.text = childData;
+  }
+
+  OnStarClicked(childData: number): void {
+    // console.log(childData);
+    this.starclicked = childData;
   }
 }

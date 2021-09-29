@@ -11,6 +11,8 @@ import { ProductsComponent } from './components/products/products.component';
 import { HomeComponent } from './components/home/home.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { StarComponent } from './components/star/star.component';
+import { ProductComponent } from './components/product/product.component';
+import { ProductGuard } from './guards/product.guard';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { StarComponent } from './components/star/star.component';
     HomeComponent,
     FooterComponent,
     StarComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,6 +32,7 @@ import { StarComponent } from './components/star/star.component';
     RouterModule.forRoot([
       { path: 'about', component: AboutComponent }, // http://localhost/about --> AboutComponent
       { path: 'products', component: ProductsComponent },
+      { path: 'products/:id', canActivate: [ProductGuard], component: ProductComponent },
       { path: 'home', component: HomeComponent },
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ]),
