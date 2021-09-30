@@ -1,0 +1,56 @@
+<br />
+<form #f="ngForm" action method="GET">
+  <div class="form-group">
+    <label for="in1">Product title: </label>
+    <input
+      type="text"
+      class="form-control"
+      id="in1"
+      name="title"
+      [(ngModel)]="testProduct.title"
+      #tf="ngModel"
+      required
+      #inputProductTitle
+    />
+    <div *ngIf="!tf.valid && tf.touched" style="color: red">Invalid title!</div>
+
+    <label for="in2">Product count in the wearhouse: </label>
+    <input
+      type="text"
+      class="form-control"
+      id="in2"
+      name="count"
+      [(ngModel)]="testProduct.count"
+      #cntf="ngModel"
+      required
+    />
+    <div *ngIf="!cntf.valid && cntf.touched" style="color: red">
+      Invalid count!
+    </div>
+  </div>
+  <br />
+  <!-- <input type="submit" /> -->
+  <button (click)="formSubmitted($event)" type="submit" class="btn btn-primary">
+    Submit
+  </button>
+  &nbsp;
+  <button (click)="invalidateForm($event)" class="btn btn-primary">
+    Invalidate!
+  </button>
+</form>
+<div *ngIf="!f.valid && f.submitted" style="color: red">Invalid & submited</div>
+<div *ngIf="!f.valid" style="color: red">Invalid</div>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+f.value {{ f.value | json }}<br />
+f.valid {{ f.valid | json }}<br />
+f.submitted {{ f.submitted | json }}<br />
+f.touched {{ f.touched | json }}<br />
+f.dirty {{ f.dirty | json }}<br />

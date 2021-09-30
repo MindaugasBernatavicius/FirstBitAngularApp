@@ -32,6 +32,7 @@ import { Component, OnInit } from '@angular/core';
             <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/home']"><span>Home</span></a>
             <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/products']"><span>Products</span></a>
             <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/about']"><span>About</span></a>
+            <a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/forms']"><span>Forms</span></a>
           </div>
         </div>
       </div>

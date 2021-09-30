@@ -13,6 +13,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { StarComponent } from './components/star/star.component';
 import { ProductComponent } from './components/product/product.component';
 import { ProductGuard } from './guards/product.guard';
+import { FormsComponent } from './components/forms/forms.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ProductGuard } from './guards/product.guard';
     FooterComponent,
     StarComponent,
     ProductComponent,
+    FormsComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,6 +36,7 @@ import { ProductGuard } from './guards/product.guard';
       { path: 'products', component: ProductsComponent },
       { path: 'products/:id', canActivate: [ProductGuard], component: ProductComponent },
       { path: 'home', component: HomeComponent },
+      { path: 'forms', component: FormsComponent },
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ]),
   ],
