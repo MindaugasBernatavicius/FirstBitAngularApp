@@ -12,7 +12,9 @@
       required
       #inputProductTitle
     />
-    <div *ngIf="!tf.valid && tf.touched" style="color: red">Invalid title!</div>
+    <div *ngIf="!tf.valid && tf.touched" class="alert alert-danger">
+      Invalid title!
+    </div>
 
     <label for="in2">Product count in the wearhouse: </label>
     <input
@@ -30,7 +32,7 @@
   </div>
   <br />
   <!-- <input type="submit" /> -->
-  <button (click)="formSubmitted($event)" type="submit" class="btn btn-primary">
+  <button type="submit" (click)="formSubmitted($event)" class="btn btn-primary">
     Submit
   </button>
   &nbsp;

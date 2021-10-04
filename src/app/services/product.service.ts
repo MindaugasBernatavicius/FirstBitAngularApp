@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Product } from '../models/Product';
 
 @Injectable({
@@ -13,10 +15,14 @@ export class ProductService {
     { id: 4, title: `Gucci Dumpsterfire [] Shoes`, count: 150, pricePerUnitInDollars: 911.9911, currency: 'EUR', score: 0.5 },
   ];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getProducts(): Product[] {
     return this.products;
+  }
+
+  getProductsFromBe(): Observable<any> {
+    return this.http.get<any>('http://localhost');
   }
 
   getProduct(id: number): Product {
