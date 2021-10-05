@@ -9,8 +9,8 @@ import { Product } from 'src/app/models/Product';
   styleUrls: ['./product.component.css']
 })
 export class ProductComponent implements OnInit {
-  // product: Product | undefined;
-  product: any;
+  product: Product | undefined;
+  // product: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,7 +20,11 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     const id = +this.activatedRoute.snapshot.paramMap.get('id')!;
-    this.product = this.productService.getProduct(id);
+    // this.product = this.productService.getProduct(id);
+    this.productService.getProductFromBe(id).subscribe(
+      res => { this.product = res },
+      err => { console.log(err); }
+    );
   }
 
   onBack(): void {

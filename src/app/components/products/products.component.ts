@@ -15,57 +15,70 @@ import { ProductService } from 'src/app/services/product.service';
     <input type="text" (input)="onFilter($event)">
     <h4>Let's print a table</h4>
 
-    <!-- <table *ngIf="products.length !== 0" class="table" > -->
-    <table *ngIf="products.length > 0; else noProductsWarning" class="table" >
-      <thead>
-        <tr>
-          <th (click)="sortBy('title')">Title
-            <i class="fa fa-{{ sortField === 'title' ?
-              (direction === 'up' ? 'chevron-up' : 'chevron-down') :
-              'sort'
-            }}"></i></th>
-          <th (click)="sortBy('count')">Count
-            <i class="fa fa-{{ sortField === 'count' ?
-              (direction === 'up' ? 'chevron-up' : 'chevron-down') :
-              'sort'
-            }}"></i></th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of filteredProducts">
-          <!-- <td>{{ product.title | convertToSpace: '-' | convertToSpace: '\\\\$' | convertToSpace: '\\\\[' | convertToSpace: '\\\\]' }}</td> -->
-          <td><a [routerLink]="['/products', product.id]">{{ product.title | convertToSpace: ['-', '\\\\$', '\\\\[', '\\\\]'] }}</a></td>
-          <td>{{ product.count | currency }}</td>
-          <td><app-star [rating]="product.score" (ratingClicked)="OnRatingClicked($event)" (starClicked)="OnStarClicked($event)"></app-star></td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <p *ngIf="products.length == 0" class="alert alert-warning">No data!</p> -->
-    <ng-template #noProductsWarning>
-      <p class="alert alert-warning">No data!</p>
-    </ng-template>
-    <hr>
-    <p>{{ text }}</p>
-    <p *ngIf="starclicked !== 0">{{ starclicked }}</p>
+    <div *ngIf="loaded">
+      <!-- <table *ngIf="products.length !== 0" class="table" > -->
+      <table *ngIf="products.length > 0; else noProductsWarning" class="table" >
+        <thead>
+          <tr>
+            <th (click)="sortBy('title')">Title
+              <i class="fa fa-{{ sortField === 'title' ?
+                (direction === 'up' ? 'chevron-up' : 'chevron-down') :
+                'sort'
+              }}"></i></th>
+            <th (click)="sortBy('count')">Count
+              <i class="fa fa-{{ sortField === 'count' ?
+                (direction === 'up' ? 'chevron-up' : 'chevron-down') :
+                'sort'
+              }}"></i></th>
+            <th>Score</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let product of filteredProducts">
+            <!-- <td>{{ product.title | convertToSpace: '-' | convertToSpace: '\\\\$' | convertToSpace: '\\\\[' | convertToSpace: '\\\\]' }}</td> -->
+            <td><a [routerLink]="['/products', product.id]">{{ product.title | convertToSpace: ['-', '\\\\$', '\\\\[', '\\\\]'] }}</a></td>
+            <td>{{ product.count | currency  }}</td>
+            <td><app-star [rating]="product.score" (ratingClicked)="OnRatingClicked($event)" (starClicked)="OnStarClicked($event)"></app-star></td>
+            <td><button (click)="onDelete(product.id)" class="btn btn-danger">Delete</button></td>
+          </tr>
+        </tbody>
+      </table>
+      <!-- <p *ngIf="products.length == 0" class="alert alert-warning">No data!</p> -->
+      <ng-template #noProductsWarning>
+        <p class="alert alert-warning">No data!</p>
+      </ng-template>
+      <hr>
+      <p>{{ text }}</p>
+      <p *ngIf="starclicked !== 0">{{ starclicked }}</p>
+    </div>
     `,
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
-  products: Product[];
-  filteredProducts: Product[];
+  products: Product[] = [];
+  filteredProducts: Product[] = this.products;
   direction = "up";
   sortField = "";
   text = "";
   starclicked = 0;
   error = ``;
+  loaded = false;
 
   constructor(
     private productService: ProductService,
     private router: Router
   ) {
-    this.products = this.productService.getProducts();
-    this.filteredProducts = this.products;
+    // this.products = this.productService.getProducts();
+    this.productService.getProductsFromBe().subscribe(
+      res => {
+        console.log(res);
+        this.products = res;
+        // this.products.forEach(element => { console.log(element.currency); });
+        this.filteredProducts = this.products; this.loaded = true
+      },
+      err => { console.log(err); this.loaded = true }
+    );
     this.error = this.router.getCurrentNavigation()?.extras.state?.error;
   }
 
@@ -102,5 +115,14 @@ export class ProductsComponent implements OnInit {
   OnStarClicked(childData: number): void {
     // console.log(childData);
     this.starclicked = childData;
+  }
+
+  onDelete(id: number): void {
+    this.productService.deleteProductFromBe(id).subscribe(
+      res => {
+        this.products = this.products.filter(p => p.id !== id);
+        this.filteredProducts = this.products;
+      }
+    );
   }
 }

@@ -1,0 +1,21 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "title": "Adidas----X512-Shoes",
+      "count": 990,
+      "pricePerUnitInDollars": 150.79,
+      "currency": "USD",
+      "score": 4.75
+    },
+    {
+      "id": 3,
+      "title": "Balenciaga Amazing       Shoe",
+      "count": 205,
+      "pricePerUnitInDollars": 150.99,
+      "currency": "JPY",
+      "score": 3.2
+    }
+  ],
+  "comments": []
+}

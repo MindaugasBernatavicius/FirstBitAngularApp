@@ -12,7 +12,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'convertToSpace' })
 export class ConvertToSpacePipe implements PipeTransform {
-  transform(valueToBeCleaned: string, charactersToReplace: string[]): string {
+  transform(valueToBeCleaned: string | undefined, charactersToReplace: string[]): string {
+    if (!valueToBeCleaned) return '';
     for (let i = 0; i < charactersToReplace.length; i++) {
       valueToBeCleaned = valueToBeCleaned.replace(new RegExp(charactersToReplace[i] + '+', 'g'), i === 0 ? ' ' : '')
     }

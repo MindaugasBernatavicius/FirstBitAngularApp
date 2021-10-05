@@ -1,19 +1,19 @@
 <div class="card-body">
   <ul class="list-group">
     <li class="list-group-item">
-      Product id: <b>{{ product.id }}</b>
+      Product id: <b>{{ product?.id }}</b>
     </li>
     <li class="list-group-item">
-      Product title: <b>{{ product.title | convertToSpace: ["-"] }}</b>
+      Product title: <b>{{ product?.title | convertToSpace: ["-"] }}</b>
     </li>
     <li class="list-group-item">
-      Product count: <b>{{ product.count }}</b>
+      Product count: <b>{{ product?.count }}</b>
     </li>
     <li class="list-group-item">
-      Product price: <b>{{ product.pricePerUnitInDollars }}</b>
+      Product price: <b>{{ product?.pricePerUnitInDollars }}</b>
     </li>
     <li class="list-group-item">
-      Product rating: <b>{{ product.score }}</b>
+      Product rating: <b>{{ product?.score }}</b>
     </li>
   </ul>
   <div class="card-footer">
