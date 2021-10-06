@@ -37,4 +37,12 @@ export class ProductService {
     // console.log("delete called!");
     return this.http.delete('http://localhost:3000/products' + '/' + id);
   }
+
+  createProductInBe(product: Product): Observable<Product> {
+    return this.http.post<Product>('http://localhost:3000/products', product);
+  }
+
+  updateProduct(product: Product): Observable<Product> {
+    return this.http.put<Product>('http://localhost:3000/products' + '/' + product.id, product);
+  }
 }

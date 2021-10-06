@@ -2,11 +2,11 @@
   "products": [
     {
       "id": 1,
-      "title": "Adidas----X512-Shoes",
+      "title": "Adidas XX992",
       "count": 990,
       "pricePerUnitInDollars": 150.79,
       "currency": "USD",
-      "score": 4.75
+      "score": 3
     },
     {
       "id": 3,
@@ -14,7 +14,40 @@
       "count": 205,
       "pricePerUnitInDollars": 150.99,
       "currency": "JPY",
-      "score": 3.2
+      "score": 3.23
+    },
+    {
+      "title": "Gucci / Armani / BMW Shoes",
+      "count": 255,
+      "pricePerUnitInDollars": 55.79,
+      "currency": "EUR",
+      "score": 3.75,
+      "id": 5
+    },
+    {
+      "title": "Petro Kedai",
+      "count": 799,
+      "price": 11.99,
+      "id": 10,
+      "score": 4
+    },
+    {
+      "title": "Kazio Kojinės",
+      "count": 99,
+      "price": 11.11,
+      "id": 11
+    },
+    {
+      "title": "Kazio Maikė",
+      "count": 99,
+      "price": 11.11,
+      "id": 12
+    },
+    {
+      "title": "Mindaugas Kepurė",
+      "count": 556,
+      "price": 11.99,
+      "id": 13
     }
   ],
   "comments": []

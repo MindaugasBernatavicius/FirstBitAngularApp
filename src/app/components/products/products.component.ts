@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Product } from 'src/app/models/Product';
 import { ProductService } from 'src/app/services/product.service';
@@ -40,7 +41,11 @@ import { ProductService } from 'src/app/services/product.service';
             <td><a [routerLink]="['/products', product.id]">{{ product.title | convertToSpace: ['-', '\\\\$', '\\\\[', '\\\\]'] }}</a></td>
             <td>{{ product.count | currency  }}</td>
             <td><app-star [rating]="product.score" (ratingClicked)="OnRatingClicked($event)" (starClicked)="OnStarClicked($event)"></app-star></td>
-            <td><button (click)="onDelete(product.id)" class="btn btn-danger">Delete</button></td>
+            <td>
+              <button (click)="onDelete(product.id)" class="btn btn-danger">Delete</button>
+              &nbsp;
+              <a [routerLink]="['/products', product.id]" class="btn btn-warning">Update</a>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -49,6 +54,18 @@ import { ProductService } from 'src/app/services/product.service';
         <p class="alert alert-warning">No data!</p>
       </ng-template>
       <hr>
+      <form #productCreationForm="ngForm">
+        <div class="form-group">
+          <label for="title">Product Title</label>
+          <input name="title" type="text" class="form-control" id="title" ngModel>
+          <label for="count">Product Count</label>
+          <input name="count" type="number" class="form-control" id="count" ngModel>
+          <label for="price">Product Price</label>
+          <input name="price" type="number" class="form-control" id="price" ngModel>
+        </div>
+        <button (click)="formHandlingMethod()" type="submit" class="btn btn-primary">Submit</button>
+      </form>
+
       <p>{{ text }}</p>
       <p *ngIf="starclicked !== 0">{{ starclicked }}</p>
     </div>
@@ -56,6 +73,7 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./products.component.css']
 })
 export class ProductsComponent implements OnInit {
+  @ViewChild('productCreationForm') private productCreationForm!: NgForm;
   products: Product[] = [];
   filteredProducts: Product[] = this.products;
   direction = "up";
@@ -123,6 +141,14 @@ export class ProductsComponent implements OnInit {
         this.products = this.products.filter(p => p.id !== id);
         this.filteredProducts = this.products;
       }
+    );
+  }
+
+  formHandlingMethod(): void {
+    let prodToCreate: Product = this.productCreationForm.value;
+    this.productService.createProductInBe(prodToCreate).subscribe(
+      res => { this.products.push(res); this.filteredProducts = this.products },
+      err => { console.log(err); }
     );
   }
 }

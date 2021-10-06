@@ -30,4 +30,11 @@ export class ProductComponent implements OnInit {
   onBack(): void {
     this.router.navigate(['/products']);
   }
+
+  onSubmitProduct(product: Product): void {
+    this.productService.updateProduct(product).subscribe(
+      res => console.log(res),
+      err => console.log(err)
+    )
+  }
 }
